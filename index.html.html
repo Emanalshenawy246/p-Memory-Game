@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="libs/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title></title>
+</head>
+<body>
+
+    
+    <div class="memory-game-blocks" id="gameBoard">
+      
+    </div>
+    <div class="timera1">
+        <div class="timera2">
+            <h1>Memory Game</h1>
+            <div id="timera">00:00:00</div>
+            <button id="startBtna">Start</button>
+            <button id="resetBtna">Reset</button> <br>
+            <div id="movst">
+                <div id="moves"></div>
+                <ul class="stars">
+                
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    
+                  </ul>
+            </div>
+        </div> 
+    </div>   
+    <div class="clear"></div>
+   
+    <script>
+                var icons = [
+            '<i class="fa-solid fa-leaf fa-2xl icon"></i>',
+            '<i class="fa-solid fa-leaf fa-2xl icon"></i>',
+            '<i class="fa-solid fa-cube fa-2xl icon"></i>',
+            '<i class="fa-solid fa-cube fa-2xl icon"></i>',
+            '<i class="fa-regular fa-gem fa-2xl icon"></i>',
+            '<i class="fa-regular fa-gem fa-2xl icon"></i>',
+            '<i class="fa-solid fa-bolt-lightning fa-2xl icon"></i>',
+            '<i class="fa-solid fa-bolt-lightning fa-2xl icon"></i>',
+            '<i class="fa-regular fa-paper-plane fa-2xl icon"></i>',
+            '<i class="fa-regular fa-paper-plane fa-2xl icon"></i>',
+            '<i class="fa-solid fa-anchor fa-2xl icon"></i>',
+            '<i class="fa-solid fa-anchor fa-2xl icon"></i>',
+            '<i class="fa-solid fa-bomb fa-2xl icon"></i>',
+            '<i class="fa-solid fa-bomb fa-2xl icon"></i>',
+            '<i class="fa-solid fa-bicycle fa-2xl icon"></i>',
+            '<i class="fa-solid fa-bicycle fa-2xl icon"></i>'
+        ];
+
+
+
+
+let flippedCards = [];
+        let lockBoard = false;
+        let movesCount = 0; // عددالحركات
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function createCard(icon) {
+            const card = document.createElement('div');
+            card.classList.add('game-block');
+            card.innerHTML = `
+                <div class="face-front"></div>
+                <div class="face-back">${icon}</div>
+            `;
+            card.addEventListener('click', flipCard);
+            document.getElementById('gameBoard').appendChild(card);
+        }
+
+        function flipCard() {
+            if (lockBoard) return;
+            this.classList.add('flipped');
+            flippedCards.push(this);
+            movesCount++; // زيادة عدد الحركات
+            document.getElementById('moves').innerHTML = +movesCount+ "Moves"; // تحديث عدد الحركات
+
+
+            if (flippedCards.length === 2) {
+                lockBoard = true;
+                setTimeout(checkMatch, 1000);
+            }
+        }
+
+        function checkMatch() {
+            const [firstCard, secondCard] = flippedCards;
+            const isMatch = firstCard.querySelector('.face-back').innerHTML === secondCard.querySelector('.face-back').innerHTML;
+
+            if (!isMatch) {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+            }
+            flippedCards = [];
+            lockBoard = false;
+        }
+
+        function startGame() {
+            document.getElementById('gameBoard').innerHTML = '';
+            movesCount = 0;
+            document.getElementById('moves').innerHTML = +movesCount+ "Moves";
+           
+            shuffle(icons);
+            icons.forEach(createCard);
+        }
+
+        document.getElementById('resetBtna').addEventListener('click', startGame);
+
+        startGame();
+    //timer
+    let timerInterval;
+let totalSeconds = 0;
+
+function updateTimerDisplay() {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    document.getElementById('timera').textContent = 
+        String(hours).padStart(2, '0') + ':' + 
+        String(minutes).padStart(2, '0') + ':' + 
+        String(seconds).padStart(2, '0');
+}
+
+document.getElementById('startBtna').addEventListener('click', () => {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        totalSeconds++;
+        updateTimerDisplay();
+    }, 1000);
+});
+
+document.getElementById('resetBtna').addEventListener('click', () => {
+    clearInterval(timerInterval);
+    totalSeconds = 0;
+    updateTimerDisplay();
+});
+
+
+
+
+      
+    
+    </script>
+
+</body>
+</html>

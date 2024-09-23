@@ -1,0 +1,100 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin-top: 30px;
+}
+.memory-game-blocks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 500px;
+  float: right;
+  margin-right: 300px;
+
+   
+    background-color:  #02ccba;
+}
+
+.game-block {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    position: relative;
+    
+}
+.face-front, .face-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    position: absolute;
+    border: 5px solid  #02ccba;
+}
+.face-front {
+   
+    background-color: rgb(51, 73, 91);
+}
+.face-back {
+    background-color: aqua;
+    transform: rotateY(180deg);
+    color: white;
+}
+.flipped .face-front {
+    transform: rotateY(180deg);
+}
+.flipped .face-back {
+    transform: rotateY(0);
+}
+#resetBtna {
+    background-color:#eee;
+    color: #ff8400;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+  
+   
+}
+#startBtna{
+    background-color: #ff8400;
+    color: #eee ;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+  
+
+}
+.timera1{
+
+   position: relative;
+
+   
+}
+.timera2{
+    position: absolute;
+    top: 20%;
+    left: 20%;
+}
+#moves{
+    padding-top: 10px;
+    font-weight: bold;
+}
+.stars{
+    list-style-type: none;
+    display: flex;
+   
+   
+}
+.stars li{
+
+margin-left: 15px;
+}
+.clear{
+    clear: both;
+}
+
+
